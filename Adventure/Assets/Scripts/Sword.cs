@@ -22,7 +22,7 @@ public class Sword : MonoBehaviour
 
     private void Update()
     {
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * swingingSpeed);
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * (isAttacking ? swingingSpeed : cooldownSpeed));
 
         cooldownTimer -= Time.deltaTime;
     }
@@ -42,7 +42,11 @@ public class Sword : MonoBehaviour
 
     private IEnumerator CooldownWait()
     {
+        isAttacking = true;
+
         yield return new WaitForSeconds(attackDuration);
+
+        isAttacking = false;
 
         targetRotation = Quaternion.Euler(0,0,0);
     }
