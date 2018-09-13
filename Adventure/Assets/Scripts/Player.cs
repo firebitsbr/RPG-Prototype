@@ -15,6 +15,9 @@ public class Player : MonoBehaviour {
 	[Header("Equipments")]
 	public Sword sword;
 	RaycastHit hit;
+	public GameObject bombPrefab;
+	public float throwingSpeed;
+	public int bombAmount = 5;
 
 	private bool canJump;
 	private Rigidbody playerRigidBody;
@@ -57,7 +60,7 @@ public class Player : MonoBehaviour {
 										playerRigidBody.velocity.y,
 										playerRigidBody.velocity.z);
 //			transform.position += Vector3.right * movingSpeed * Time.deltaTime;
-			targetModelRotation = Quaternion.Euler(0,270,0);
+			targetModelRotation = Quaternion.Euler(0,90,0);
 		}
 		if (Input.GetKey(KeyCode.A)|| Input.GetKey(KeyCode.LeftArrow))
 		{
@@ -65,7 +68,7 @@ public class Player : MonoBehaviour {
 										 playerRigidBody.velocity.y,
 										 playerRigidBody.velocity.z);
 //			transform.position += Vector3.left * movingSpeed * Time.deltaTime;
-			targetModelRotation = Quaternion.Euler(0,90,0);
+			targetModelRotation = Quaternion.Euler(0,270,0);
 //			model.transform.localEulerAngles = new Vector3(0,90, 0);
 		}
 		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
@@ -74,7 +77,7 @@ public class Player : MonoBehaviour {
 													playerRigidBody.velocity.y,
 													movingVelocity);
 //			transform.position += Vector3.forward * movingSpeed * Time.deltaTime;
-			targetModelRotation = Quaternion.Euler(0,180,0);
+			targetModelRotation = Quaternion.Euler(0,0,0);
 //			model.transform.localEulerAngles = new Vector3(0,180,0);
 		}
 		if (Input.GetKey(KeyCode.S)|| Input.GetKey(KeyCode.DownArrow))
@@ -84,7 +87,7 @@ public class Player : MonoBehaviour {
 												 -movingVelocity);
 
 //			transform.position += Vector3.back * movingSpeed * Time.deltaTime;
-			targetModelRotation = Quaternion.Euler(0,0,0);
+			targetModelRotation = Quaternion.Euler(0,180,0);
 //			model.transform.localEulerAngles = new Vector3(0,0,0);
 		}
 
@@ -102,6 +105,27 @@ public class Player : MonoBehaviour {
 		{
 			sword.Attack();
 		}
+
+		if(Input.GetKeyDown(KeyCode.X))
+		{
+			ThrowBomb();
+		}
+	}
+
+	private void ThrowBomb()
+	{
+		if(bombAmount <= 0)
+		{
+			return;
+		}
+		GameObject bombObject = Instantiate(bombPrefab); // A bomb will appear on the scene.
+		bombObject.transform.position = transform.position + model.transform.forward;
+
+		Vector3 throwingDirection = (model.transform.forward + Vector3.up);
+
+		bombObject.GetComponent<Rigidbody>().AddForce(throwingDirection * throwingSpeed);
+
+		bombAmount--;
 	}
 	#endregion Methods
 
