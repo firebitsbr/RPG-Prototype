@@ -14,6 +14,8 @@ public class Player : MonoBehaviour {
 
 	[Header("Equipments")]
 	public Sword sword;
+	public Bow bow;
+	public int arrowAmount = 15;
 	RaycastHit hit;
 	public GameObject bombPrefab;
 	public float throwingSpeed;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour {
 	#region Functions
 	private void Start()
 	{
+		bow.gameObject.SetActive(false);
 		playerRigidBody = GetComponent<Rigidbody>();
 		targetModelRotation = Quaternion.Euler(0,0,0);
 	}
@@ -103,10 +106,23 @@ public class Player : MonoBehaviour {
 		// Check equipment interaction
 		if(Input.GetKeyDown("z"))
 		{
+			sword.gameObject.SetActive(true);
+			bow.gameObject.SetActive(false);
 			sword.Attack();
 		}
 
 		if(Input.GetKeyDown(KeyCode.X))
+		{
+			if(arrowAmount > 0)
+			{
+				sword.gameObject.SetActive(false);
+				bow.gameObject.SetActive(true);
+				bow.Attack();
+				arrowAmount--;
+			}
+		}
+
+		if(Input.GetKeyDown(KeyCode.C))
 		{
 			ThrowBomb();
 		}
