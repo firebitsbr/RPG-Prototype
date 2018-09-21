@@ -27,6 +27,13 @@ public class Bomb : MonoBehaviour
 		{
 			exploded = true;
 			Collider[] hitObjects = Physics.OverlapSphere(transform.position, radius);
+			foreach(Collider collider in hitObjects)
+			{
+				if(collider.GetComponent<Enemy>() != null)
+				{
+					collider.GetComponent<Enemy>().Hit();
+				}
+			}
 
 			foreach(Collider collider in hitObjects)
 			{
