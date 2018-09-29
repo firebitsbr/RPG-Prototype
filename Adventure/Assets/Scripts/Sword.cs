@@ -14,6 +14,14 @@ public class Sword : MonoBehaviour
     private Quaternion targetRotation;
 
     private bool isAttacking;
+
+    public bool IsAttacking
+    {
+        get
+        {
+            return isAttacking;
+        }
+    }
     #endregion
     private void Start()
     {

@@ -25,7 +25,11 @@ public class Enemy : MonoBehaviour
 	{
 		if(otherCollider.GetComponent<Sword>() != null)
 		{
-			Hit();
+			if(otherCollider.GetComponent<Sword>().IsAttacking)
+			{
+				Hit();
+			}
+
 		}
 		else if(otherCollider.GetComponent<Arrow>() != null)
 		{
